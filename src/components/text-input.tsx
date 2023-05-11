@@ -66,7 +66,7 @@ export default function TextField<
       )}
       <div
         className={twMerge(
-          "flex items-center gap-2 rounded-md border border-[#E0E0E0] py-2 px-3",
+          "flex items-center gap-2 rounded-md border py-2 px-3",
           className,
           sizeMap[size],
           multiline && "h-auto",
