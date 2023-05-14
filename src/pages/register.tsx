@@ -34,7 +34,7 @@ export default function RegisterForm() {
           />
 
           <Link
-            href={"/register"}
+            href={"/login"}
             className="text-blue-500 hover:text-blue-700 underline mt-5"
           >
             Sudah punya akun?
