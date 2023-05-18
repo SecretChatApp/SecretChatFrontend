@@ -19,7 +19,7 @@ export default function ChatBubble({
 
   return (
     <Component
-      className={`w-full h-auto flex items-center py-2 px-6 ${
+      className={`w-full h-auto flex items-center py-2 px-6 drop-shadow-md ${
         position == "left" ? "justify-start" : "justify-end"
       }`}
     >

@@ -1,6 +1,8 @@
 import Button from "@/components/button";
 import ChatBubble from "@/components/chat-bubble";
+import RoomCard from "@/components/chatroom/room-card";
 import PaperPlaneIcon from "@/components/icons/paper-plane";
+import PlusSign from "@/components/icons/plus-sign";
 import TextField from "@/components/text-input";
 
 export default function Chatroom() {
@@ -29,7 +31,15 @@ export default function Chatroom() {
           </div>
         </div>
       </div>
-      <div className="h-full w-[1000px] bg-white"></div>
+      <div className="h-full w-[1000px] bg-white p-6 relative flex flex-col gap-y-5">
+        <RoomCard />
+        <RoomCard />
+        <RoomCard />
+        <RoomCard />        
+        <div className="absolute bottom-4 right-4 h-24 w-24 bg-blue-500 rounded-full flex justify-center items-center cursor-pointer hover:bg-blue-700">
+          <PlusSign fill="#ffffff" />
+        </div>
+      </div>      
     </div>
   );
 }
