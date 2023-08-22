@@ -59,6 +59,7 @@ export default function Button<
         className
       )}
       disabled={disabled}
+      {...props}
     >
       {startIcon}
       {children}

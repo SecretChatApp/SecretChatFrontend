@@ -9,6 +9,7 @@ import RoomForm from "@/components/room/room-form";
 
 export default function Chatroom() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [selected, setSelected] = useState<string>();
 
   return (
     <div className="flex h-screen w-full justify-center items-center">
@@ -69,16 +70,12 @@ export default function Chatroom() {
         </div>
       </div>
       <div className="h-full w-[1000px] bg-white p-6 relative flex flex-col gap-y-5 overflow-scroll">
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
+        <RoomCard onEdit={(value) => {
+          console.log('edit')
+          setSelected(value);
+          setIsOpenModal(true);
+        }} />
+       
         <div
           className="fixed bottom-4 right-4 h-24 w-24 bg-blue-500 rounded-full flex justify-center items-center cursor-pointer hover:bg-blue-700"
           onClick={() => setIsOpenModal(true)}
@@ -86,9 +83,7 @@ export default function Chatroom() {
           <PlusSign fill="#ffffff" />
         </div>
       </div>
-      {isOpenModal && (
-        <RoomForm open={isOpenModal} onClose={() => setIsOpenModal(false)} />
-      )}
+        <RoomForm open={isOpenModal} onClose={() => setIsOpenModal(false)} roomId={selected} />
     </div>
   );
 }

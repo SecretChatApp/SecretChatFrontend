@@ -9,7 +9,7 @@ interface RoomFormProps {
   roomId?: string;
 }
 
-export default function RoomForm({ open, onClose }: RoomFormProps) {
+export default function RoomForm({ open, onClose, roomId }: RoomFormProps) {
   if (!open) return null;
 
   return (
