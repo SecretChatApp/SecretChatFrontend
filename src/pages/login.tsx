@@ -2,8 +2,10 @@ import Button from "@/components/button";
 import TextField from "@/components/text-input";
 import { authService } from "@/services";
 import { LoginPayload } from "@/types/auth";
+import { getCookie, setCookie } from "cookies-next";
 import Link from "next/link";
 import { useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 
 export default function LoginForm() {
   const [email, setEmail] = useState<string>();
@@ -23,8 +25,13 @@ export default function LoginForm() {
     };
 
     try {
-      await authService.login(payload).then((res) => {
-        console.log(res);
+      await authService.login(payload).then((res) => {        
+        setCookie("access_token", res.token)
+        if(getCookie('access_token')){
+          toast.success(res.message);
+          window.location.href = '/chatroom'
+        }
+
       });
     } catch (error) {
       console.log(error);
@@ -64,6 +71,7 @@ export default function LoginForm() {
           </Button>
         </form>
       </div>
+      <Toaster position="top-right" />
     </div>
   );
 }
