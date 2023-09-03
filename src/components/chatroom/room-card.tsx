@@ -1,17 +1,22 @@
+import { ChatroomItem } from "@/types/chatroom";
 import Button from "../button";
 
 interface RoomCardProps {
-  onEdit: (id: string) => void;
+  onEdit: () => void;
+  chatRoomItem: ChatroomItem;
+  onDelete: (id: string) => void;
 }
 
-export default function RoomCard({ onEdit }: RoomCardProps) {
+export default function RoomCard({
+  onEdit,
+  chatRoomItem,
+  onDelete,
+}: RoomCardProps) {
   return (
     <div className="w-full flex bg-[#D9D9D9] rounded-lg p-4 h-40 drop-shadow-md ">
       <div className="bg-white w-[80%] h-full p-3 flex flex-col rounded-lg">
-        <div className="h-[75%] w-full">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas
-          minima rerum beatae soluta, nulla veniam.
-        </div>
+        <span className="text-xl font-bold">{chatRoomItem.title}</span>
+        <div className="h-[75%] w-full">{chatRoomItem.subject}</div>
         <div className="h-[25%] w-full flex flex-col justify-end">
           <Button fullWidth={true} size="medium">
             Go to
@@ -23,12 +28,16 @@ export default function RoomCard({ onEdit }: RoomCardProps) {
           fullWidth={true}
           className="bg-blue-500"
           onClick={() => {
-            onEdit("123");
+            onEdit();
           }}
         >
           Edit
         </Button>
-        <Button fullWidth={true} className="bg-red-500">
+        <Button
+          fullWidth={true}
+          className="bg-red-500"
+          onClick={() => onDelete(chatRoomItem.id)}
+        >
           Delete
         </Button>
       </div>
