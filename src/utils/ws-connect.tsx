@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import * as WebSocket from "websocket";
 
-export const UserWs = (url: string) => {
+interface UserWsResult {
+  isReady: boolean;
+  messages: string[];
+  send: (data: string) => void;
+}
+
+export const UserWs = (url: string): UserWsResult => {
   const [isReady, setIsReady] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
 
@@ -28,4 +34,12 @@ export const UserWs = (url: string) => {
       socket.close();
     };
   }, []);
+
+  const send = (data: string) => {
+    if (ws.current) {
+      ws.current.send(data);
+    }
+  };
+
+  return { isReady, messages, send };
 };
