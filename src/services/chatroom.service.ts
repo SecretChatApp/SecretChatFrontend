@@ -1,4 +1,4 @@
-import { ChatroomItem, CreateChatroomPayload } from "@/types/chatroom";
+import { ChatroomItem, CreateChatroomPayload, Message } from "@/types/chatroom";
 import { BaseHttpService } from "./base.service";
 import { CommonApiResponse } from "@/types/common";
 
@@ -43,6 +43,14 @@ export class ChatroomService extends BaseHttpService {
     const { data: resBody } = await this.httpClient.delete<
       CommonApiResponse<ChatroomItem>
     >(`/api/delete/${id}`);
+
+    return resBody;
+  }
+
+  async getHistoryMessages(chatroomId: string) {
+    const { data: resBody } = await this.httpClient.get<
+      CommonApiResponse<Message[]>
+    >(`/api/messages/${chatroomId}`);
 
     return resBody;
   }

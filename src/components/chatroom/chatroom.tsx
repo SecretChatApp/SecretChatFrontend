@@ -1,21 +1,24 @@
-import { UserWs } from "@/utils/ws-connect";
+import { UseWs } from "@/utils/ws-connect";
 import Button from "../button";
 import ChatBubble from "../chat-bubble";
 import PaperPlaneIcon from "../icons/paper-plane";
 import TextField from "../text-input";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActionType, ChatPayload } from "@/types/room";
+import { chatroomService } from "@/services";
+import { Message } from "@/types/chatroom";
 
 interface ChatroomProps {
   id: string;
 }
 
 export default function Chatroom({ id }: ChatroomProps) {
-  const { isReady, messages, send } = UserWs(
+  const { isReady, messages, send } = UseWs(
     "ws://localhost:8000/chat?id=" + id
   );
   const [text, setText] = useState<string>("");
-  const [historyMessages, setHistoryMessages] = useState<any[]>([]);
+  const [historyMessages, setHistoryMessages] = useState<Message[]>([]);
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,50 +34,56 @@ export default function Chatroom({ id }: ChatroomProps) {
     setText("");
   };
 
+  const getHistoryMessages = async () => {
+    try {
+      const response = await chatroomService.getHistoryMessages(id);
+      if (response) {
+        setHistoryMessages(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const scrollToBottom = () => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   if (!id) return null;
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    getHistoryMessages();
+  }, []);
 
   return (
     <div className="flex flex-col h-full bg-[#434240] rounded-lg items-center p-6">
       <div className="w-full h-full bg-gray-300 gap-y-5 overflow-scroll">
-        <ChatBubble position="right">
-          right Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
-          vel.
-        </ChatBubble>
-        <ChatBubble position="left">
-          left Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Suscipit, itaque sapiente! Pariatur sed distinctio reprehenderit natus
-          impedit ab quibusdam quaerat.
-        </ChatBubble>
-        <ChatBubble position="left">
-          left Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Suscipit, itaque sapiente! Pariatur sed distinctio reprehenderit natus
-          impedit ab quibusdam quaerat.
-        </ChatBubble>
-        <ChatBubble position="left">
-          left Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Suscipit, itaque sapiente! Pariatur sed distinctio reprehenderit natus
-          impedit ab quibusdam quaerat.
-        </ChatBubble>
-        <ChatBubble position="left">
-          left Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Suscipit, itaque sapiente! Pariatur sed distinctio reprehenderit natus
-          impedit ab quibusdam quaerat.
-        </ChatBubble>
-        <ChatBubble position="left">
-          left Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Suscipit, itaque sapiente! Pariatur sed distinctio reprehenderit natus
-          impedit ab quibusdam quaerat.
-        </ChatBubble>
-        <ChatBubble position="left">
-          left Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Suscipit, itaque sapiente! Pariatur sed distinctio reprehenderit natus
-          impedit ab quibusdam quaerat.
-        </ChatBubble>
-        <ChatBubble position="left">
-          left Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Suscipit, itaque sapiente! Pariatur sed distinctio reprehenderit natus
-          impedit ab quibusdam quaerat.
-        </ChatBubble>
+        {historyMessages.map((message) => {
+          return (
+            <ChatBubble
+              key={message.id}
+              position={message.sender == "owner" ? "left" : "right"}
+            >
+              {message.text}
+            </ChatBubble>
+          );
+        })}
+        {messages.map((message) => {
+          return (
+            <ChatBubble
+              key={message.id}
+              position={message.sender == "owner" ? "left" : "right"}
+            >
+              {message.text}
+            </ChatBubble>
+          );
+        })}
+
+        <div ref={messageEndRef} />
       </div>
       <form
         onSubmit={handleSubmit}

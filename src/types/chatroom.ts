@@ -8,3 +8,10 @@ export interface ChatroomItem {
   title: string;
   subject: string;
 }
+
+export interface Message {
+  id: string;
+  text: string;
+  sender: string;
+  created_at: Date;
+}

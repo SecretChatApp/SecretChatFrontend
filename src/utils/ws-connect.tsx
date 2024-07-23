@@ -1,15 +1,16 @@
+import { Message } from "@/types/chatroom";
 import { useEffect, useRef, useState } from "react";
 import * as WebSocket from "websocket";
 
 interface UserWsResult {
   isReady: boolean;
-  messages: string[];
+  messages: Message[];
   send: (data: string) => void;
 }
 
-export const UserWs = (url: string): UserWsResult => {
+export const UseWs = (url: string): UserWsResult => {
   const [isReady, setIsReady] = useState(false);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const ws = useRef<WebSocket.w3cwebsocket | null>(null);
 
