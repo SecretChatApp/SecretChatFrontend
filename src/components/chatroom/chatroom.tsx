@@ -57,7 +57,7 @@ export default function Chatroom({ id }: ChatroomProps) {
 
   useEffect(() => {
     getHistoryMessages();
-  }, []);
+  }, [id]);
 
   return (
     <div className="flex flex-col h-full bg-[#434240] rounded-lg items-center p-6">
