@@ -66,28 +66,30 @@ export default function RoomForm({
       <Outside onClick={onClose}>
         <div className="w-[1109px] bg-[#f3f2f2] rounded-lg flex flex-col items-center p-6 gap-y-3">
           <h1 className="text-2xl">Create your story</h1>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              type="text"
-              placeholder="Enter your title"
-              className="w-[766px] bg-white"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <TextField
-              type="text"
-              placeholder="Enter your description"
-              className="w-[766px] bg-white"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              multiline
-            />
-          </form>
-          <hr className="border-1 border-slate-200 w-[766px]" />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <div>
+              <TextField
+                type="text"
+                placeholder="Enter your title"
+                className="w-[766px] bg-white"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <TextField
+                type="text"
+                placeholder="Enter your description"
+                className="w-[766px] bg-white"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                multiline
+              />
+            </div>
+            <hr className="border-1 border-slate-200 w-[766px]" />
 
-          <Button className="w-[766px]" type="submit">
-            Create
-          </Button>
+            <Button className="w-[766px]" type="submit">
+              Create
+            </Button>
+          </form>
         </div>
       </Outside>
     </div>
