@@ -7,14 +7,17 @@ import { useEffect, useRef, useState } from "react";
 import { ActionType, ChatPayload } from "@/types/room";
 import { chatroomService } from "@/services";
 import { Message } from "@/types/chatroom";
+import { useRouter } from "next/router";
 
 interface ChatroomProps {
   id: string;
 }
 
 export default function Chatroom({ id }: ChatroomProps) {
+  const router = useRouter();
+  const roomId = router.query.id as string;
   const { isReady, messages, send } = UseWs(
-    "ws://localhost:8000/chat?id=" + id
+    `${process.env.NEXT_PUBLIC_WS_URL}/chat?id=${roomId}`
   );
   const [text, setText] = useState<string>("");
   const [historyMessages, setHistoryMessages] = useState<Message[]>([]);
@@ -58,30 +61,16 @@ export default function Chatroom({ id }: ChatroomProps) {
 
   useEffect(() => {
     getHistoryMessages();
-  }, [isReady]);
+  }, [id]);
 
   return (
     <div className="flex flex-col h-full bg-[#434240] rounded-lg items-center p-6">
       <div className="w-full h-full bg-gray-300 gap-y-5 overflow-scroll">
-        {historyMessages.map((message) => {
-          return (
-            <ChatBubble
-              key={message.id}
-              position={message.sender == "owner" ? "left" : "right"}
-            >
-              {message.text}
-            </ChatBubble>
-          );
+        {historyMessages.map((message, index) => {
+          return <ChatBubble key={index} message={message} />;
         })}
-        {messages.map((message) => {
-          return (
-            <ChatBubble
-              key={message.id}
-              position={message.sender == "owner" ? "left" : "right"}
-            >
-              {message.text}
-            </ChatBubble>
-          );
+        {messages.map((message, index) => {
+          return <ChatBubble key={index} message={message} />;
         })}
 
         <div ref={messageEndRef} />
