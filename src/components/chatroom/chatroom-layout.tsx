@@ -1,7 +1,7 @@
 import { chatroomService } from "@/services";
 import { ChatroomItem } from "@/types/chatroom";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import RoomCard from "./room-card";
 import PlusSign from "../icons/plus-sign";
 import RoomForm from "../room/room-form";
@@ -78,6 +78,7 @@ export default function ChatroomLayout(props: Readonly<ChatroomLayoutProps>) {
         room={chatrooms[selected]}
         onSubmit={() => fetchRooms()}
       />
+      <Toaster position="top-right" />
     </div>
   );
 }

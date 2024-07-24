@@ -1,5 +1,6 @@
 import { ChatroomItem } from "@/types/chatroom";
 import Button from "../button";
+import toast from "react-hot-toast";
 
 interface RoomCardProps {
   onEdit: () => void;
@@ -14,6 +15,11 @@ export default function RoomCard({
   onDelete,
   onSelect,
 }: RoomCardProps) {
+  const handleCopyToClipboard = () => {
+    const url = `${window.location.protocol}//${window.location.host}/room/${chatRoomItem.id}`;
+    navigator.clipboard.writeText(url);
+    toast.success("Copied to clipboard");
+  };
   return (
     <div className="w-full flex bg-[#D9D9D9] rounded-lg p-4 h-40 drop-shadow-md ">
       <div className="bg-white w-[80%] h-full p-3 flex flex-col rounded-lg">
@@ -38,6 +44,15 @@ export default function RoomCard({
           }}
         >
           Edit
+        </Button>
+        <Button
+          fullWidth={true}
+          className="bg-green-500"
+          onClick={() => {
+            handleCopyToClipboard();
+          }}
+        >
+          Copy
         </Button>
         <Button
           fullWidth={true}
