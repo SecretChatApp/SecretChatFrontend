@@ -25,7 +25,7 @@ export default function Chatroom({ id }: ChatroomProps) {
     if (!text) return console.log("empty text");
     const payload: ChatPayload = {
       action: ActionType.SEND_MESSAGE,
-      message: text,
+      text: text,
       target: id,
     };
     if (send) {
@@ -39,6 +39,7 @@ export default function Chatroom({ id }: ChatroomProps) {
       const response = await chatroomService.getHistoryMessages(id);
       if (response) {
         setHistoryMessages(response.data);
+        scrollToBottom();
       }
     } catch (error) {
       console.log(error);
@@ -57,7 +58,7 @@ export default function Chatroom({ id }: ChatroomProps) {
 
   useEffect(() => {
     getHistoryMessages();
-  }, [id]);
+  }, [isReady]);
 
   return (
     <div className="flex flex-col h-full bg-[#434240] rounded-lg items-center p-6">

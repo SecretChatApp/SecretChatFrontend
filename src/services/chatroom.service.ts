@@ -50,7 +50,7 @@ export class ChatroomService extends BaseHttpService {
   async getHistoryMessages(chatroomId: string) {
     const { data: resBody } = await this.httpClient.get<
       CommonApiResponse<Message[]>
-    >(`/api/messages/${chatroomId}`);
+    >(`/chatroom/${chatroomId}`);
 
     return resBody;
   }

@@ -4,6 +4,6 @@ export enum ActionType {
 
 export interface ChatPayload {
   action: ActionType;
-  message: string;
+  text: string;
   target: string;
 }
