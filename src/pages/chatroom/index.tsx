@@ -18,9 +18,12 @@ export default function ChatroomPage() {
 
   return (
     <div>
-      <ChatroomLayout onSelect={(value) => handleNavigate(value)}>
+      <ChatroomLayout
+        onSelect={(value) => handleNavigate(value)}
+        onCollapse={(value) => {}}
+      >
         <div className="h-full w-full bg-[#6B7BD3] flex justify-center items-center">
-          <div className="h-3/4 w-2/5">
+          <div className="h-[600px] w-[500px]">
             {id && <Chatroom id={String(roomId)} />}
           </div>
         </div>

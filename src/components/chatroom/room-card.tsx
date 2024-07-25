@@ -1,6 +1,9 @@
 import { ChatroomItem } from "@/types/chatroom";
 import Button from "../button";
 import toast from "react-hot-toast";
+import TrashCanIcon from "../icons/trash-can";
+import CopyIcon from "../icons/copy";
+import EditIcon from "../icons/edit";
 
 interface RoomCardProps {
   onEdit: () => void;
@@ -21,8 +24,8 @@ export default function RoomCard({
     toast.success("Copied to clipboard");
   };
   return (
-    <div className="w-full flex bg-[#D9D9D9] rounded-lg p-4 h-40 drop-shadow-md ">
-      <div className="bg-white w-[80%] h-full p-3 flex flex-col rounded-lg">
+    <div className="w-full flex lg:flex-row bg-[#D9D9D9] rounded-lg p-4 lg:h-40 h-48 drop-shadow-md flex-col">
+      <div className="bg-white lg:w-[80%] h-full p-3 flex flex-col rounded-lg w-full">
         <span className="text-xl font-bold">{chatRoomItem.title}</span>
         <div className="h-[75%] w-full">{chatRoomItem.subject}</div>
         <div className="h-[25%] w-full flex flex-col justify-end">
@@ -35,7 +38,7 @@ export default function RoomCard({
           </Button>
         </div>
       </div>
-      <div className="w-[20%] h-full px-3 flex flex-col justify-between">
+      <div className="lg:w-[20%] h-full p-3 flex lg:flex-col lg:gap-y-1 flex-row items-center justify-around w-full gap-x-2">
         <Button
           fullWidth={true}
           className="bg-blue-500"
@@ -43,7 +46,7 @@ export default function RoomCard({
             onEdit();
           }}
         >
-          Edit
+          <EditIcon />
         </Button>
         <Button
           fullWidth={true}
@@ -52,14 +55,14 @@ export default function RoomCard({
             handleCopyToClipboard();
           }}
         >
-          Copy
+          <CopyIcon />
         </Button>
         <Button
           fullWidth={true}
           className="bg-red-500"
           onClick={() => onDelete(chatRoomItem.id)}
         >
-          Delete
+          <TrashCanIcon />
         </Button>
       </div>
     </div>
